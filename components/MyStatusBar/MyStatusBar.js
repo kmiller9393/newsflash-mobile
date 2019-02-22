@@ -10,7 +10,7 @@ const MyStatusBar = () => (
 
 const styles = StyleSheet.create({
   statusBar: {
-    backgroundColor: '#013a71',
+    backgroundColor: '#191919',
     height: Constants.statusBarHeight
   }
 });
