@@ -5,38 +5,73 @@ import {
   TextInput,
   Button,
   TouchableHighlight,
-  Image
+  Image,
+  StatusBar
 } from 'react-native';
 import { Constants } from 'expo';
 import bolt from '../../assets/thunderbolt.png';
-import MyStatusBar from '../MyStatusBar/MyStatusBar';
 
 export default class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      usernameError: false,
+      password: '',
+      passwordError: false
+    };
+  }
+
+  handleInputChange = (field, value) => {
+    const newState = {
+      ...this.state,
+      [field]: value
+    };
+    this.setState(newState);
+  };
+
+  handleSubmit = () => {
+    const { username, password } = this.state;
+    if (username.length === 0) {
+      return this.setState({ usernameError: true });
+    }
+    this.setState({ usernameError: false });
+
+    if (password.length === 0) {
+      return this.setState({ passwordError: true });
+    }
+    this.setState({ passwordError: false });
+
+    return this.props.screenProps.changeLoginState(true);
+  };
+
   render() {
+    const { usernameError, passwordError } = this.state;
+
     return (
       <View style={styles.loginView}>
-        <View>
-          <MyStatusBar />
-        </View>
+        <StatusBar barStyle="light-content" style={styles.statusBar} />
         <View style={styles.loginContainer}>
-          <Image style={{ height: 200, width: 200 }} source={bolt} />
+          <Image style={styles.logo} source={bolt} />
           <View style={styles.loginForm}>
             <TextInput
               placeholderTextColor="#f7f7f7"
+              onChangeText={value => this.handleInputChange('username', value)}
               style={styles.input}
               placeholder="username"
             />
             <TextInput
               placeholderTextColor="#f7f7f7"
+              onChangeText={value => this.handleInputChange('password', value)}
               style={styles.input}
               placeholder="password"
-              secureTextEntry={true}
+              secureTextEntry
             />
             <TouchableHighlight style={styles.loginButton}>
               <Button
                 color="#f7f7f7"
                 title="Login"
-                onPress={() => console.log(Constants.statusBarHeight)}
+                onPress={this.handleSubmit}
               />
             </TouchableHighlight>
           </View>
@@ -50,11 +85,18 @@ const styles = StyleSheet.create({
   loginView: {
     flex: 1
   },
+  statusBar: {
+    backgroundColor: '#191919'
+  },
   loginContainer: {
     alignItems: 'center',
     backgroundColor: '#191919',
     justifyContent: 'center',
     flex: 1
+  },
+  logo: {
+    height: 200,
+    width: 200
   },
   loginForm: {
     alignItems: 'center',
