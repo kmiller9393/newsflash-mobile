@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Text, Button, Content } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Text, Button, Header, Left, Icon } from 'native-base';
 
 export default class Profile extends Component {
   handleLogout = () => {
@@ -9,12 +10,17 @@ export default class Profile extends Component {
   render() {
     return (
       <Container>
-        <Content>
-          <Button full onPress={() => this.handleLogout()}>
-            <Text>Log Out</Text>
-          </Button>
-          <Text>This is the profile page</Text>
-        </Content>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate('Home')}
+            >
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+        </Header>
+        <Text>This is the profile page</Text>
       </Container>
     );
   }
