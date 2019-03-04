@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import { StyleSheet, View, Image, StatusBar } from 'react-native';
 import {
-  StyleSheet,
-  View,
-  TextInput,
+  Container,
   Button,
-  TouchableHighlight,
-  Image,
-  StatusBar
-} from 'react-native';
-import { Constants } from 'expo';
+  Content,
+  Form,
+  Item,
+  Input,
+  Text
+} from 'native-base';
 import bolt from '../../assets/thunderbolt.png';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 export default class Login extends Component {
   constructor() {
@@ -46,37 +48,44 @@ export default class Login extends Component {
   };
 
   render() {
-    const { usernameError, passwordError } = this.state;
+    const { emailError, passwordError } = this.state;
 
     return (
-      <View style={styles.loginView}>
+      <Container style={styles.loginView}>
         <StatusBar barStyle="light-content" style={styles.statusBar} />
-        <View style={styles.loginContainer}>
+        <Content contentContainerStyle={styles.loginContainer}>
           <Image style={styles.logo} source={bolt} />
-          <View style={styles.loginForm}>
-            <TextInput
-              placeholderTextColor="#f7f7f7"
-              onChangeText={value => this.handleInputChange('username', value)}
-              style={styles.input}
-              placeholder="username"
-            />
-            <TextInput
-              placeholderTextColor="#f7f7f7"
-              onChangeText={value => this.handleInputChange('password', value)}
-              style={styles.input}
-              placeholder="password"
-              secureTextEntry
-            />
-            <TouchableHighlight style={styles.loginButton}>
-              <Button
-                color="#f7f7f7"
-                title="Login"
-                onPress={this.handleSubmit}
+          <Form style={styles.loginForm}>
+            <Item error={emailError} style={styles.inputItem}>
+              <Input
+                placeholder="Email"
+                onChangeText={value => this.handleInputChange('email', value)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.input}
               />
-            </TouchableHighlight>
+            </Item>
+            <Item error={passwordError} style={styles.inputItem}>
+              <Input
+                placeholder="Password"
+                onChangeText={value =>
+                  this.handleInputChange('password', value)
+                }
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry
+                style={styles.input}
+              />
+            </Item>
+          </Form>
+          <View style={styles.buttonContainer}>
+            <Button full onPress={this.handleSubmit} style={styles.loginButton}>
+              <Text>Login</Text>
+            </Button>
           </View>
-        </View>
-      </View>
+        </Content>
+      </Container>
     );
   }
 }
@@ -101,9 +110,13 @@ const styles = StyleSheet.create({
   loginForm: {
     alignItems: 'center',
     backgroundColor: '#191919',
-    height: 300,
-    paddingBottom: Constants.statusBarHeight,
+    height: 150,
     width: '85%'
+  },
+  inputItem: {
+    borderColor: 'transparent',
+    marginLeft: 0,
+    paddingLeft: 0
   },
   input: {
     alignItems: 'flex-end',
@@ -117,11 +130,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%'
   },
+  buttonContainer: {
+    width: '85%'
+  },
   loginButton: {
     backgroundColor: '#2be664',
     height: 55,
     justifyContent: 'center',
-    marginTop: 20,
     width: '100%'
   }
 });
