@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import {
   Container,
   Header,
-  Content,
   Footer,
   FooterTab,
   Button,
@@ -12,6 +11,8 @@ import {
   Left,
   Right
 } from 'native-base';
+import StoryContainer from '../StoryContainer/StoryContainer';
+import FlashBar from '../FlashBar/FlashBar';
 
 export default class Home extends Component {
   render() {
@@ -32,7 +33,8 @@ export default class Home extends Component {
             </Button>
           </Right>
         </Header>
-        <Content />
+        <FlashBar />
+        <StoryContainer style={styles.storyContainer} />
         <Footer style={styles.footer}>
           <FooterTab>
             <Button vertical>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%'
   },
-  footer: {
-    marginTop: 200
+  storyContainer: {
+    flex: 1
   }
 });
