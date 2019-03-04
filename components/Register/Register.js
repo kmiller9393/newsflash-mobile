@@ -13,7 +13,7 @@ import { Constants } from 'expo';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class Register extends React.Component {
+export default class Register extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -186,5 +186,3 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
-
-export default Register;
