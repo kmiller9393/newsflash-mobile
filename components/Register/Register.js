@@ -101,8 +101,6 @@ class Register extends React.Component {
       phoneNumber,
       username
     );
-    console.log('CREATEAUTHOR', this.props.createAuthor);
-    console.log(email, firstName, lastName, password, phoneNumber, username);
   };
 
   render() {
