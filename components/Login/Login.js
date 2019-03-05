@@ -48,7 +48,7 @@ export default class Login extends Component {
   };
 
   render() {
-    const { emailError, passwordError } = this.state;
+    const { usernameError, passwordError } = this.state;
 
     return (
       <Container style={styles.loginView}>
@@ -56,11 +56,12 @@ export default class Login extends Component {
         <Content contentContainerStyle={styles.loginContainer}>
           <Image style={styles.logo} source={bolt} />
           <Form style={styles.loginForm}>
-            <Item error={emailError} style={styles.inputItem}>
+            <Item error={usernameError} style={styles.inputItem}>
               <Input
-                placeholder="Email"
-                onChangeText={value => this.handleInputChange('email', value)}
-                keyboardType="email-address"
+                placeholder="username"
+                onChangeText={value =>
+                  this.handleInputChange('username', value)
+                }
                 autoCapitalize="none"
                 autoCorrect={false}
                 style={styles.input}
@@ -68,7 +69,7 @@ export default class Login extends Component {
             </Item>
             <Item error={passwordError} style={styles.inputItem}>
               <Input
-                placeholder="Password"
+                placeholder="password"
                 onChangeText={value =>
                   this.handleInputChange('password', value)
                 }
