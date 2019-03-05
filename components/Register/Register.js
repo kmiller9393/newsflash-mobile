@@ -13,12 +13,20 @@ import { Constants } from 'expo';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-export default class Register extends React.Component {
-  constructor() {
-    super();
+class Register extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       emailError: false,
+      firstName: '',
+      firstNameError: false,
+      lastName: '',
+      lastNameError: false,
+      username: '',
+      usernameError: false,
+      phoneNumber: '',
+      phoneNumberError: false,
       password: '',
       passwordError: false,
       confirmPassword: '',
@@ -35,7 +43,36 @@ export default class Register extends React.Component {
   };
 
   handleSubmit = () => {
-    const { email, password, confirmPassword } = this.state;
+    const {
+      email,
+      username,
+      firstName,
+      lastName,
+      phoneNumber,
+      password,
+      confirmPassword
+    } = this.state;
+
+    if (username.length === 0) {
+      return this.setState({ usernameError: true });
+    }
+    this.setState({ usernameError: false });
+
+    if (firstName.length === 0) {
+      return this.setState({ firstNameError: true });
+    }
+    this.setState({ firstNameError: false });
+
+    if (lastName.length === 0) {
+      return this.setState({ lastNameError: true });
+    }
+    this.setState({ lastNameError: false });
+
+    if (phoneNumber.length === 0) {
+      return this.setState({ phoneNumberError: true });
+    }
+    this.setState({ phoneNumberError: false });
+
     if (email.length === 0) {
       return this.setState({ emailError: true });
     }
@@ -56,12 +93,29 @@ export default class Register extends React.Component {
     }
     this.setState({ passwordError: false, confirmPasswordError: false });
 
-    return this.props.screenProps.changeLoginState(true);
+    this.props.createAuthor(
+      email,
+      firstName,
+      lastName,
+      password,
+      phoneNumber,
+      username
+    );
+    console.log('CREATEAUTHOR', this.props.createAuthor);
+    console.log(email, firstName, lastName, password, phoneNumber, username);
   };
 
   render() {
     const { navigation } = this.props;
-    const { emailError, passwordError, confirmPasswordError } = this.state;
+    const {
+      emailError,
+      firstNameError,
+      lastNameError,
+      phoneNumberError,
+      usernameError,
+      passwordError,
+      confirmPasswordError
+    } = this.state;
 
     return (
       <Container style={styles.registerView}>
@@ -76,7 +130,54 @@ export default class Register extends React.Component {
                 placeholder="email"
                 placeholderTextColor="#f7f7f7"
                 onChangeText={value => this.handleInputChange('email', value)}
-                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.input}
+              />
+            </Item>
+            <Item error={firstNameError} style={styles.inputItem}>
+              <Input
+                placeholder="first name"
+                placeholderTextColor="#f7f7f7"
+                onChangeText={value =>
+                  this.handleInputChange('firstName', value)
+                }
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.input}
+              />
+            </Item>
+            <Item error={lastNameError} style={styles.inputItem}>
+              <Input
+                placeholder="last name"
+                placeholderTextColor="#f7f7f7"
+                onChangeText={value =>
+                  this.handleInputChange('lastName', value)
+                }
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.input}
+              />
+            </Item>
+            <Item error={phoneNumberError} style={styles.inputItem}>
+              <Input
+                placeholder="phone number"
+                placeholderTextColor="#f7f7f7"
+                onChangeText={value =>
+                  this.handleInputChange('phoneNumber', value)
+                }
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.input}
+              />
+            </Item>
+            <Item error={usernameError} style={styles.inputItem}>
+              <Input
+                placeholder="username"
+                placeholderTextColor="#f7f7f7"
+                onChangeText={value =>
+                  this.handleInputChange('username', value)
+                }
                 autoCapitalize="none"
                 autoCorrect={false}
                 style={styles.input}
@@ -186,3 +287,23 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
+
+export default graphql(
+  gql`
+    mutation CreateAuthor($email: String!, $password: String!, $firstname: String!, $lastname: String!, $phonenumber: String!, $username: String!) {
+      createAuthor(email: $email, password: $password, firstname: $firstname, lastname: $lastname, phonenumber: $phonenumber, username: $username) {
+        user {
+        email
+        firstName
+        lastName
+        id
+        }
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      createAuthor: (email, password, firstname, lastname, phonenumber, username) => mutate({ variables: { email, password, firstname, lastname, phonenumber, username } }),
+    }),
+  },
+)(Register);
