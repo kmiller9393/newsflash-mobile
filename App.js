@@ -4,10 +4,10 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider, withApollo } from 'react-apollo';
 import { createAppContainer, createDrawerNavigator } from 'react-navigation';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import Profile from './components/Profile/Profile';
-import Home from './components/Home/Home';
+import Login from './src/components/Login/Login';
+import Register from './src/components/Register/Register';
+import Profile from './src/components/Profile/Profile';
+import Home from './src/components/Home/Home';
 
 
 export default class App extends Component {
@@ -53,7 +53,8 @@ const NoAuthDrawerNavigator = createDrawerNavigator({
 });
 
 const AuthDrawerNavigator = createDrawerNavigator({
-  Home: { screen: Home }
+  Home: { screen: Home },
+  Profile: Profile
 });
 
 const client = new ApolloClient({
