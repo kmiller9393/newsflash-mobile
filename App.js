@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { ApolloClient } from 'apollo-boost';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloProvider, withApollo } from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
 import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import Login from './src/components/Login/Login';
 import Register from './src/components/Register/Register';
 import Profile from './src/components/Profile/Profile';
 import Home from './src/components/Home/Home';
 
-
 export default class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       loggedIn: false
     };
@@ -26,11 +25,11 @@ export default class App extends Component {
     return (
       <ApolloProvider client={client}>
         {this.state.loggedIn ? (
-          <FinalAuthAppContainer
+          <AuthAppContainer
             screenProps={{ changeLoginState: this.handleChangeLoginState }}
           />
         ) : (
-            <FinalNoAuthAppContainer
+            <NoAuthAppContainer
               screenProps={{ changeLoginState: this.handleChangeLoginState }}
             />
           )}
@@ -49,12 +48,16 @@ const NoAuthDrawerNavigator = createDrawerNavigator({
   'Sign Up': {
     screen: Register
   },
-  Profile: Profile
+  Profile: {
+    screen: Profile
+  }
 });
 
 const AuthDrawerNavigator = createDrawerNavigator({
   Home: { screen: Home },
-  Profile: Profile
+  Profile: {
+    screen: Profile
+  }
 });
 
 const client = new ApolloClient({
@@ -65,7 +68,3 @@ const client = new ApolloClient({
 const NoAuthAppContainer = createAppContainer(NoAuthDrawerNavigator);
 
 const AuthAppContainer = createAppContainer(AuthDrawerNavigator);
-
-const FinalNoAuthAppContainer = withApollo(NoAuthAppContainer);
-
-const FinalAuthAppContainer = withApollo(AuthAppContainer);
