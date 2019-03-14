@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import styles from './styles';
-import mockUsers from '../../../utils/mockUsers.json';
+import mockUsers from '../../../utils/mockUsers.js';
 import FlashCard from '../FlashCard/FlashCard';
 
 export default class FlashBar extends Component {
