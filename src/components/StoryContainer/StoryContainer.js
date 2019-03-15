@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import styles from './styles';
 import StoryCard from '../StoryCard/StoryCard';
-import stories from '../../../utils/mockStories.json';
+import stories from '../../../utils/mockStories.js';
 
 const storyCards = stories.map(story => (
   <StoryCard {...story} key={story.id} />
