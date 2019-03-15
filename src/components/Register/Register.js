@@ -94,13 +94,35 @@ class Register extends React.Component {
     this.setState({ passwordError: false, confirmPasswordError: false });
 
     this.props.createAuthor(
+      username,
+      password,
       email,
       firstName,
       lastName,
-      password,
-      phoneNumber,
-      username
-    );
+      phoneNumber
+    ).then(() => {
+      return this.props.navigation.navigate('Login')
+    })
+      .catch (err => {
+      if (/username/i.test(err.message)) {
+        this.setState({ usernameError: true });
+      }
+      if (/password/i.test(err.message)) {
+        this.setState({ passwordError: true });
+      }
+      if (/email/i.test(err.message)) {
+        this.setState({ emailError: true });
+      }
+      if (/firstName/i.test(err.message)) {
+        this.setState({ firstNameError: true });
+      }
+      if (/lastname/i.test(err.message)) {
+        this.setState({ lastNameError: true });
+      }
+      if (/phonenumber/i.test(err.message)) {
+        this.setState({ phoneNumberError: true });
+      }
+    });;
   };
 
   render() {
@@ -212,12 +234,6 @@ class Register extends React.Component {
             <Button style={styles.button} onPress={this.handleSubmit}>
               <Text>Sign Up</Text>
             </Button>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('Login')}
-            >
-              <Text>Sign In</Text>
-            </Button>
           </View>
         </Content>
       </Container>
@@ -227,20 +243,51 @@ class Register extends React.Component {
 
 export default graphql(
   gql`
-    mutation CreateAuthor($email: String!, $password: String!, $firstname: String!, $lastname: String!, $phonenumber: String!, $username: String!) {
-      createAuthor(email: $email, password: $password, firstname: $firstname, lastname: $lastname, phonenumber: $phonenumber, username: $username) {
+    mutation CreateAuthor(
+      $username: String!,
+      $password: String!,
+      $email: String!,
+      $firstname: String!,
+      $lastname: String!,
+      $phonenumber: String!
+    ) {
+      createAuthor(
+        username: $username,
+        password: $password,
+        email: $email,
+        firstname: $firstname,
+        lastname: $lastname,
+        phonenumber: $phonenumber
+      ) {
         user {
-        email
-        firstName
-        lastName
-        id
+          email
+          firstName
+          lastName
+          id
         }
       }
     }
   `,
   {
     props: ({ mutate }) => ({
-      createAuthor: (email, password, firstname, lastname, phonenumber, username) => mutate({ variables: { email, password, firstname, lastname, phonenumber, username } }),
-    }),
-  },
+      createAuthor: (
+        username,
+        password,
+        email,
+        firstname,
+        lastname,
+        phonenumber
+      ) =>
+        mutate({
+          variables: {
+            username,
+            password,
+            email,
+            firstname,
+            lastname,
+            phonenumber
+          }
+        })
+    })
+  }
 )(Register);
