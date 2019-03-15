@@ -45,8 +45,22 @@ class Login extends Component {
     }
     this.setState({ passwordError: false });
 
-    this.props.tokenAuth(username, password);
-    return this.props.screenProps.changeLoginState(true);
+    this.props
+      .tokenAuth(username, password)
+      .then(({ data }) => {
+        return this.props.screenProps.changeLoginState(
+          true,
+          data.tokenAuth.token
+        );
+      })
+      .catch(err => {
+        if (/username/i.test(err.message)) {
+          this.setState({ usernameError: true });
+        }
+        if (/password/i.test(err.message)) {
+          this.setState({ passwordError: true });
+        }
+      });
   };
 
   render() {
