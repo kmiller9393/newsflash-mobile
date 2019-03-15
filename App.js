@@ -3,11 +3,16 @@ import { ApolloClient } from 'apollo-boost';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
-import { createAppContainer, createDrawerNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createDrawerNavigator
+} from 'react-navigation';
 import Login from './src/components/Login/Login';
+import Logout from './src/components/Logout/Logout';
 import Register from './src/components/Register/Register';
 import Profile from './src/components/Profile/Profile';
 import Home from './src/components/Home/Home';
+import { signIn, signOut, getToken } from './utils/asyncStorage.js';
 
 export default class App extends Component {
   constructor() {
@@ -17,8 +22,20 @@ export default class App extends Component {
     };
   }
 
-  handleChangeLoginState = (loggedIn = false) => {
+  async componentDidMount() {
+    const token = await getToken();
+    if (token) {
+      this.setState({ loggedIn: true });
+    }
+  }
+
+  handleChangeLoginState = (loggedIn = false, token) => {
     this.setState({ loggedIn });
+    if (loggedIn) {
+      signIn(token);
+    } else {
+      signOut();
+    }
   };
 
   render() {
@@ -42,7 +59,7 @@ const NoAuthDrawerNavigator = createDrawerNavigator({
   Home: {
     screen: Home
   },
-  'Sign In': {
+  Login: {
     screen: Login
   },
   'Sign Up': {
@@ -57,7 +74,8 @@ const AuthDrawerNavigator = createDrawerNavigator({
   Home: { screen: Home },
   Profile: {
     screen: Profile
-  }
+  },
+  Logout: Logout
 });
 
 const client = new ApolloClient({
