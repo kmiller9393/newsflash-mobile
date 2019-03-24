@@ -5,6 +5,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 250,
         width: '100%'
+    },
+    image: {
+        height: '80%',
+        width: '100%'
     }
 });
 
