@@ -14,6 +14,11 @@ import Profile from './src/components/Profile/Profile';
 import Home from './src/components/Home/Home';
 import { signIn, signOut, getToken } from './utils/asyncStorage.js';
 
+const client = new ApolloClient({
+  link: new HttpLink({ uri: 'https://newsflashback.herokuapp.com/graphql/' }),
+  cache: new InMemoryCache()
+});
+
 export default class App extends Component {
   constructor() {
     super();
@@ -76,11 +81,6 @@ const AuthDrawerNavigator = createDrawerNavigator({
     screen: Profile
   },
   Logout: Logout
-});
-
-const client = new ApolloClient({
-  link: new HttpLink({ uri: 'https://newsflashback.herokuapp.com/graphql/' }),
-  cache: new InMemoryCache()
 });
 
 const NoAuthAppContainer = createAppContainer(NoAuthDrawerNavigator);
