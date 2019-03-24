@@ -7,17 +7,25 @@ export default class StoryCard extends Component {
     Linking.openURL(this.props.url);
   };
 
+  cleanUrl = link => {
+    let matched = link.match(/([^/]*\/){4}/);
+
+    return matched ? matched[0] : link
+  };
+
   render() {
     const { title, url, image } = this.props;
+
+    const newUrl = this.cleanUrl(url);
 
     return (
       <View style={styles.cardContainer}>
         <Image
           source={{ uri: image }}
-          style={{ height: '80%', width: '100%' }}
+          style={styles.image}
         />
         <Text>{title}</Text>
-        <Text onPress={() => this.handlePress()}>{url}</Text>
+        <Text onPress={() => this.handlePress()}>{newUrl}</Text>
       </View>
     );
   }
