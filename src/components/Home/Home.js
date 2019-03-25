@@ -13,15 +13,37 @@ import {
 } from 'native-base';
 import styles from './styles';
 import StoryContainer from '../StoryContainer/StoryContainer';
+import NewPost from '../NewPost/NewPost';
 import FlashBar from '../FlashBar/FlashBar';
 
 export default class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showNewPostForm: false
+    }
+  }
+
+  showNewPost = () => {
+    this.setState({
+      showNewPostForm: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      showNewPostForm: false
+    })
+  }
+
   render() {
     const { openDrawer, navigate } = this.props.navigation;
+    const { showNewPostForm } = this.state;
 
     return (
       <Container style={styles.homeContainer}>
         <StatusBar barStyle="dark-content" />
+        {showNewPostForm && <NewPost handleClose={this.handleClose} />}
         <Header>
           <Left>
             <Button transparent onPress={() => openDrawer()}>
@@ -40,19 +62,18 @@ export default class Home extends Component {
           <FooterTab>
             <Button vertical>
               <Icon name="home" />
-              <Text>Home</Text>
             </Button>
             <Button vertical>
               <Icon name="flash" />
-              <Text>FlashList</Text>
+            </Button>
+            <Button vertical onPress={this.showNewPost}>
+              <Icon name="add" />
             </Button>
             <Button vertical>
               <Icon name="book" />
-              <Text>Archive</Text>
             </Button>
             <Button vertical>
               <Icon name="chatboxes" />
-              <Text>Chat</Text>
             </Button>
           </FooterTab>
         </Footer>
