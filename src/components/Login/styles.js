@@ -42,12 +42,6 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         width: '85%'
-    },
-    loginButton: {
-        backgroundColor: '#2be664',
-        height: 55,
-        justifyContent: 'center',
-        width: '100%'
     }
 });
 
