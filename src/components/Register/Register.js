@@ -9,6 +9,7 @@ import {
   Input,
   Text
 } from 'native-base';
+import FlashButton from '../FlashButton/FlashButton';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import styles from './styles';
@@ -126,7 +127,6 @@ class Register extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
     const {
       emailError,
       firstNameError,
@@ -231,9 +231,7 @@ class Register extends React.Component {
             </Item>
           </Form>
           <View style={styles.buttonContainer}>
-            <Button style={styles.button} onPress={this.handleSubmit}>
-              <Text>Sign Up</Text>
-            </Button>
+            <FlashButton text="Sign Up" method={this.handleSubmit} />
           </View>
         </Content>
       </Container>

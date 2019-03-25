@@ -9,6 +9,7 @@ import {
   Input,
   Text
 } from 'native-base';
+import FlashButton from '../FlashButton/FlashButton';
 import styles from './styles';
 import bolt from '../../../assets/thunderbolt.png';
 import { graphql } from 'react-apollo';
@@ -97,9 +98,7 @@ class Login extends Component {
             </Item>
           </Form>
           <View style={styles.buttonContainer}>
-            <Button full onPress={this.handleSubmit} style={styles.loginButton}>
-              <Text>Login</Text>
-            </Button>
+            <FlashButton text="Login" method={this.handleSubmit} />
           </View>
         </Content>
       </Container>
