@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ApolloClient } from 'apollo-boost';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
 import { ApolloProvider } from 'react-apollo';
 import {
   createAppContainer,
@@ -14,8 +15,23 @@ import Profile from './src/components/Profile/Profile';
 import Home from './src/components/Home/Home';
 import { signIn, signOut, getToken } from './utils/asyncStorage.js';
 
+const httpLink = new HttpLink({ uri: 'https://newsflashback.herokuapp.com/graphql/' });
+
+const authLink = setContext(async (req, { headers }) => {
+  const token = await getToken();
+
+  return {
+    ...headers,
+    headers: {
+      authorization: token ? `Bearer ${token}` : null
+    }
+  }
+});
+
+const link = authLink.concat(httpLink);
+
 const client = new ApolloClient({
-  link: new HttpLink({ uri: 'https://newsflashback.herokuapp.com/graphql/' }),
+  link,
   cache: new InMemoryCache()
 });
 
