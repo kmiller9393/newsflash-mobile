@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     registerForm: {
         alignItems: 'center',
         backgroundColor: '#191919',
+        marginBottom: 20,
         marginLeft: 0,
         paddingLeft: 0,
         width: '85%'
@@ -51,14 +52,6 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         width: '85%'
-    },
-    button: {
-        backgroundColor: '#2be664',
-        borderRadius: 0,
-        height: 55,
-        justifyContent: 'center',
-        marginTop: 20,
-        width: '100%'
     }
 });
 
