@@ -11,7 +11,7 @@
   "dependencies": {
     "apollo-boost": "^0.1.28",
     "apollo-link-context": "^1.0.17",
-    "expo": "^32.0.6",
+    "expo": "^46.0.14",
     "faker": "^4.1.0",
     "graphql": "^14.1.1",
     "js-yaml": "^3.13.1",
